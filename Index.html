@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine 💖</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff5f6d, #ffc371);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      color: white;
+    }
+
+    h1 { font-size: 2.5rem; }
+
+    .countdown {
+      margin-top: 10px;
+      font-size: 1.2rem;
+    }
+
+    .buttons {
+      margin-top: 40px;
+      position: relative;
+      height: 160px;
+    }
+
+    button {
+      font-size: 1.4rem;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      position: absolute;
+      transition: transform 0.2s;
+    }
+
+    #yes {
+      background: #ff2e63;
+      color: white;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #no {
+      background: #333;
+      color: white;
+    }
+
+    .hidden { display: none; }
+
+    .result img {
+      width: 260px;
+      border-radius: 20px;
+      margin: 20px 0;
+    }
+
+    .love-letter {
+      max-width: 320px;
+      margin: auto;
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      color: rgba(255,255,255,0.8);
+      animation: floatUp 6s linear infinite;
+      font-size: 20px;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-110vh); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4c4d6b61b0.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container" id="main">
+  <h1>Will you be my Valentine? 💘</h1>
+  <div class="countdown" id="countdown"></div>
+
+  <div class="buttons" id="buttons">
+    <button id="yes">YES 💖</button>
+    <button id="no">NO 🙈</button>
+  </div>
+</div>
+
+<div class="container hidden result" id="result">
+  <h1>Hi Dr. Vajratiya Vajrobol!! 🥰🌹</h1>
+  <img src="https://images.unsplash.com/photo-1526045478516-99145907023c" alt="Us">
+
+  <div class="love-letter">
+    Thank you for choosing me 💕  
+    I can’t promise perfection,  
+    but I promise laughter, care,  
+    late-night talks, and a lot of love.  
+    <br><br>
+    Let’s go on a date and make memories together ✨
+  </div>
+</div>
+
+<script>
+  const noBtn = document.getElementById("no");
+  const yesBtn = document.getElementById("yes");
+  const main = document.getElementById("main");
+  const result = document.getElementById("result");
+  const buttons = document.getElementById("buttons");
+
+  // ✅ FIXED: NO button stays inside the visible area
+  function moveNo() {
+    const areaWidth = buttons.clientWidth;
+    const areaHeight = buttons.clientHeight;
+
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = areaWidth - btnWidth;
+    const maxY = areaHeight - btnHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
+
+  // Desktop + mobile
+  noBtn.addEventListener("mouseenter", moveNo);
+  noBtn.addEventListener("click", moveNo);
+  noBtn.addEventListener("touchstart", moveNo);
+
+  yesBtn.addEventListener("click", () => {
+    main.classList.add("hidden");
+    result.classList.remove("hidden");
+  });
+
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 7000);
+  }, 300);
+
+  const countdownEl = document.getElementById("countdown");
+  const valentine = new Date("Feb 14, 2026 00:00:00").getTime();
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = valentine - now;
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+    countdownEl.innerHTML = `⏳ ${d} days ${h} hrs ${m} min until Valentine’s Day`;
+  }, 1000);
+</script>
+
+</body>
+</html>
